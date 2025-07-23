@@ -1,0 +1,33 @@
+<div id="loginModal" class="fixed inset-0 z-20 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white p-8 rounded-lg w-96">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h2 class="text-2xl font-bold text-center mb-4 text-gray-700">Login</h2>
+
+            <div id="loginErrorMessage" class="text-red-500 mt-4 hidden"></div>
+            <form method="POST" action="/auth/login">
+                <input type="hidden" id="loginReturnTo" name="returnTo" value="">
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" name="email" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" class="w-full p-2 border border-gray-300 rounded-md text-gray-700" required>
+                </div>
+                <button type="submit" class="w-full bg-sfpurplemedium text-white font-medium py-2 rounded-md">Login</button>
+            </form>
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-700">
+                    Don't have an account?
+                    <a href="javascript:void(0)" onclick="switchToSignUp()" class="text-sfpurplemedium">Sign Up</a>
+                </p>
+            </div>
+            <!-- <div id="loginErrorMessage" class="text-red-500 mt-4 hidden"></div> -->
+        </div>
+
+        <div class="mt-4 text-center">
+            <button onclick="closeModal('loginModal')" class="w-full bg-white text-black border border-black px-4 py-2 rounded-md hover:bg-gray-100 transition">Close</button>
+        </div>
+    </div>
+</div>

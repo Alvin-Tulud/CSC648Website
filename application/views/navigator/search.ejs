@@ -1,0 +1,56 @@
+<div class="sticky top-16 z-10 flex justify-center bg-sfpurple font-AG font-medium p-4">
+    <form action="/" id="search" class="flex flex-row text-gray-700 bg-white rounded border-2 border-white lg:w-[48rem] md:w-[36rem] w-96"> <!-- search bar form to get listings-->
+        <select name="category" class="border-r-2 border-sfpurple"> <!-- dropdown menu for categories -->
+            <% if (locals.category) { %>
+                <% if (category == "1") { %>
+                    <option value="" selected disabled hidden>Stationery</option>
+                <% } else if (category == "2") { %>
+                    <option value="" selected disabled hidden>Electronic</option>
+                <% } else if (category == "3") { %>
+                    <option value="" selected disabled hidden>Bags</option>
+                <% } else if (category == "4") { %>
+                    <option value="" selected disabled hidden>Book</option>
+                <% } else if (category == "5") { %>
+                    <option value="" selected disabled hidden>Supplies</option>
+                <% } else if (category == "6") { %>
+                    <option value="" selected disabled hidden>Accessories</option>
+                <% } else if (category == "7") { %>
+                    <option value="" selected disabled hidden>Furniture</option>
+                <% } else { %>
+                    <option value="" selected disabled hidden>All</option>
+                <% } %>
+            <% } %>
+            <option value="">All</option>
+            <option value="1">Stationery</option>
+            <option value="2">Electronics</option>
+            <option value="3">Bags</option>
+            <option value="4">Books</option>
+            <option value="5">Supplies</option>
+            <option value="6">Accessories</option>
+            <option value="7">Furniture</option>
+            <% if (locals.classKey) { %>
+                <input type="hidden" name="classKey" value="<%= classKey %>">
+            <% } else { %>
+                <input type="hidden" name="classKey" value="">
+            <% } %>
+            <% if (locals.minPrice) { %>
+                <input type="hidden" name="minPrice" value="<%= minPrice %>">
+            <% } else { %>
+                <input type="hidden" name="minPrice" value="">
+            <% } %>
+            <% if (locals.maxPrice) { %>
+                <input type="hidden" name="minPrice" value="<%= maxPrice %>">
+            <% } else { %>
+                <input type="hidden" name="minPrice" value="">
+            <% } %>
+        </select>
+        <% if (locals.keyWord) { %>  <!-- input field for keywords -->
+            <input type="text" name="keyWord" class="pl-1 lg:pr-[25.5rem] md:pr-[13.5rem] pr-9" maxlength="40" placeholder="Search..." value="<%= keyWord %>" maxlength="40"> 
+        <% } else { %>
+            <input type="text" name="keyWord" class="pl-1 lg:pr-[25.5rem] md:pr-[13.5rem] pr-9" maxlength="40" placeholder="Search..." value="" maxlength="40">
+        <% } %>
+        <button type="submit" class="pl-1 bg-white border-l-2 border-sfpurple"><ion-icon name="search-outline"></ion-icon></ion-icon></button>
+    </form>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <!-- ionicons for social media icons -->
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</div>

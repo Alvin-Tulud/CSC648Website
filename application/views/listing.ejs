@@ -1,0 +1,88 @@
+<%-include("navigator/header.ejs")%>
+
+    <%-include("navigator/search.ejs")%>
+        <div class="p-4 max-w-7xl mx-auto flex flex-row justify-center"> <div class="flex flex-col md:flex-row pt-2 gap-4 md:gap-8">
+                <div class="flex justify-center items-start">
+                    <% if (product.image) { %>
+                        <img src="<%= product.image %>"
+                             alt="<%= product.name %>"
+                             class="border-2 border-sfpurple lg:w-[35rem] lg:h-[35rem] md:w-[32rem] md:h-[32rem] w-80 h-80 object-contain rounded-lg">
+                    <% } else { %>                       
+                         <div class="border-2 border-dashed border-gray-300 lg:w-[35rem] lg:h-[35rem] md:w-[32rem] md:h-[32rem] w-80 h-80 rounded-lg bg-gray-50 flex items-center justify-center">
+                            <span class="text-gray-400 text-sm">Image not provided</span>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="lg:hidden md:hidden border-b-2 pb-2 w-[36rem]"></div>
+
+                <div class="flex flex-col">
+                    <h1 class="text-3xl lg:text-4xl font-semibold mb-3 text-gray-800 break-words">
+                        <%= product.name || '[Product Name Missing]' %>
+                    </h1>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-gray-600 mb-3 text-lg">
+                        <span>Category:
+                            <span class="font-medium text-gray-700">
+                            <% const categories = { "1": "Stationery", "2": "Electronic", "3": "Bags", "4": "Book", "5": "Supplies", "6": "Accessories", "7": "Furniture" }; %>
+                            <%= categories[product.category] || 'Other' %>
+                            </span>
+                        </span>
+                      <% if (product.class) { %>
+                        <span>Class:
+                            <span class="font-medium text-gray-700"><%= product.class %></span>
+                        </span>
+                        <% } %>
+                    </div>
+                    <div class="flex items-center gap-2 mb-4 text-lg">
+                
+                        <img src="/images/Default_pfp.jpg" alt="Seller Avatar" class="w-8 h-8 rounded-full border border-gray-300 bg-gray-200">
+                        <span>Seller:
+                           
+                            <span class="font-medium text-gray-800"><%= product.sellerUsername || '[Seller Name Missing]' %></span>
+                        </span>
+                    </div>
+
+                    <div class="border-b-2 pb-2 lg:w-[38rem] md:w-96 w-[36rem]"></div>
+
+                     <p class="text-4xl font-bold text-sfpurple mb-4">
+                   
+                        $<%= typeof product.price !== 'undefined' ? product.price : '--' %>
+                    </p>
+
+                    <div class="border-b-2 pb-2 lg:w-[38rem] md:w-96 w-[36rem]"></div>
+
+                     <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-1">Description:</h3>
+                        <p class="text-gray-700 leading-relaxed break-words">
+                         
+                            <%= product.description || '[No description provided]' %>
+                        </p>
+                    </div>
+
+                    <div class="border-b-2 pb-2 lg:w-[38rem] md:w-96 w-[36rem]"></div>
+
+        
+                    <% if (typeof userId !== 'undefined' && userId && typeof product.ownerId !== 'undefined' && userId !== product.ownerId) { %>
+                      <button
+                        onclick="initMessageBox('messageBoxId', <%= product.ownerId %>, <%= product.productId %>, '<%= (product.name || '').replace(/'/g, "\\'") %>')"
+                        class="w-full md:w-auto bg-sfpurple text-white text-xl font-medium text-center px-6 py-3 rounded-lg hover:bg-sfpurplemedium transition duration-150 ease-in-out shadow-md">
+                          Contact Seller
+                      </button>
+                    <% } else if (typeof userId !== 'undefined' && userId && typeof product.ownerId !== 'undefined' && userId === product.ownerId) { %>
+                        <p class="text-gray-600 italic bg-gray-100 p-3 rounded-md">This is your listing. You cannot message yourself.</p>
+                    <% } else { %>
+                        <p class="text-gray-600 bg-yellow-100 p-3 rounded-md">Please <button onclick="openModal('loginModal')" class="text-blue-600 hover:underline font-medium">log in</button> to contact the seller.</p>
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+
+        <%-include("messageBox.ejs") %> 
+        
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/messagingClient.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,87 @@
+<%-include("navigator/header.ejs")%>
+
+    <div class="dashboard-container flex flex-col md:flex-row gap-4 p-4 max-w-7xl mx-auto" data-user-id="<%= typeof userId !== 'undefined' ? userId : '' %>">
+
+        <aside class="sidebar w-full md:w-1/3 border rounded p-6 bg-gray-50 overflow-y-auto" style="max-height: 80vh;">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Your Product Listings</h2>
+            <div id="product-list">
+                <% if (products && products.length > 0) { %>
+                    <% products.forEach(product => { %>
+                        <div class="product-item border rounded p-3 mb-3 bg-white shadow-sm" data-product-id="<%= product.productId %>">
+                            <div class="flex items-center gap-3">
+
+                                <img src="<%= product.image || '/images/DuckMom.png' %>" alt="<%= product.productName %>" class="w-16 h-16 object-cover rounded border flex-shrink-0">
+                                <div class="flex-grow min-w-0"> <strong class="block text-lg truncate"><%= product.productName %></strong>
+                                    <span class="text-sm text-gray-600 block">Price: $<%= product.price %></span>
+                                    <span class="product-status status-<%= product.isApproved ? 'approved' : 'pending' %> text-xs font-medium px-2 py-0.5 rounded-full inline-block <%= product.isApproved ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %>">
+                                         <%= product.isApproved ? 'Approved' : 'Pending' %>
+                                     </span>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <p class="text-gray-500">You have no products listed yet.</p>
+                                <a href="/sell" class="text-blue-600 hover:underline">List an item</a>
+                                <% } %>
+            </div>
+        </aside>
+
+        <main class="main-content w-full md:w-2/3 flex flex-col border rounded bg-white" style="max-height: 80vh;">
+            <h2 class="text-xl font-semibold mb-0 border-b p-4 sticky top-0 bg-white z-10">Messages</h2>
+
+            <div id="conversation-list-area" class="overflow-y-auto flex-grow p-4">
+                <% if (conversations && conversations.length > 0) { %>
+                    <% conversations.forEach(convo => { %>
+                        <% const latestMessage = convo.messages[convo.messages.length - 1]; %>
+                            <div class="conversation-snippet border rounded p-3 mb-3 shadow-sm bg-gray-50 hover:bg-gray-100 cursor-pointer transition" data-conversation-id="<%= convo.conversationId %>" data-product-name="<%= convo.productName %>" data-other-party-username="<%= convo.otherPartyUsername %>"
+                                data-other-party-id="<%= convo.otherPartyId %>" onclick="showConversation(this)">
+                                <h4 class="font-semibold text-md mb-1 truncate gap-4 flex flex-row items-center justify-between">
+                                    <p class="text-md font-bold text-gray-600"> Re: <%= convo.productName %> (with <%= convo.otherPartyUsername %>)</p>
+                                    <a href="/listing/<%= convo.productId %>" class="text-white bg-sfpurple p-2 border-sfpurple border-2 rounded gap-4" onclick="event.stopPropagation();">To Product Details Page</a>
+                                </h4>
+                                <% if (latestMessage) { %>
+                                    <p class="text-sm text-gray-700 truncate">
+
+                                        <%= latestMessage.content %> (Click to Show Full Conversation)
+                                    </p>
+                                    <small class="text-gray-500 text-xs block text-right"><%= new Date(latestMessage.createdAt).toLocaleString() %></small>
+                                    <% } else { %>
+                                        <p class="text-sm text-gray-500 italic">No messages yet.</p>
+                                        <% } %>
+                                            <script type="application/json" class="conversation-data" style="display: none;">
+                                                <%- JSON.stringify(convo.messages) %>
+                                            </script>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p class="text-gray-500 no-messages-placeholder p-4">You have no messages yet.</p>
+                                    <% } %>
+            </div>
+
+            <div id="conversation-detail-area" class="border-t p-4 flex-shrink-0 hidden">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 id="detail-conversation-header" class="text-lg font-semibold">Conversation Details</h3>
+                    <button onclick="hideConversationDetail()" class="text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+                </div>
+                <div id="detail-message-list" class="overflow-y-auto mb-3 p-2 bg-gray-50 rounded border" style="max-height: 30vh;">
+                </div>
+                <div id="detail-reply-box">
+                    <textarea id="detail-reply-textarea" class="w-full p-2 border rounded mb-2 resize-none" maxlength="1000" rows="3" placeholder="Type your reply..."></textarea>
+                    <div class="flex justify-between items-center">
+                        <button id="detail-send-reply-btn" class="bg-blue-500 hover:bg-purple-600 text-white font-medium px-4 py-2 rounded disabled:opacity-50">Send Reply</button>
+                        <span id="dashboard-reply-status" class="text-sm ml-2 h-4"></span>
+                    </div>
+                    <input type="hidden" id="detail-conversation-id">
+                    <input type="hidden" id="detail-recipient-id"> </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/messagingClient.js"></script>
+    <script src="/js/dashboardView.js" defer></script>
+
+    </body>
+
+    </html>

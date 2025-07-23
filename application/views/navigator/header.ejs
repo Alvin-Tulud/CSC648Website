@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bundle.css">
+    <script src="/js/login-register.js"></script>
+    <script src="/js/messageBox.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GDR4WSDQYG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-GDR4WSDQYG');
+    </script>
+
+    <title>Team 10</title>
+</head>
+
+<body class="min-w-[640px]">
+    <div class="sticky top-0 z-10 bg-red-500 text-white p-2 text-center">
+        <!-- top banner and disclaimer -->
+        SFSU Software Engineering Project CSC 648-848, Spring 2025. For Demonstration Only <br> CSC648-01 Spring 2025, Team 10
+    </div>
+    <div class="bg-sfpurple text-white font-AG px-4 py-2 relative">
+        <!-- navigator bar -->
+        <!--use AG font for titles and headers-->
+        <div class="flex flex-row justify-center">
+            <img src="/images/SFState_Gator_Arch_Bnr_FC.png" alt="GatorXchange Logo" class="w-[11rem] h-[8.5rem]">
+        </div>
+        <!-- use sfpurple for header only and sfpurplemedium for other bars-->
+        <div class="grid grid-cols-7">
+            <a href="/" class="col-span-2 font-bold text-4xl lg:px-4 md:px-4 px-2">GatorXchange</a>
+        
+            <div class="lg:col-span-3 md:col-span-3 lg:visible md:visible invisible inset-x-0 flex flex-row justify-center">
+                <ul class="flex flex-row lg:space-x-20 md:space-x-10 space-x-5 text-gray-300 font-medium text-xl items-center">
+                    <!-- navigator bar links -->
+                    <li>
+                        <a href="/" class="hover:text-white transition-colors">Home</a>
+                    </li>
+
+                    <% if (locals.user && user) { %>
+                        <li>
+                            <a href="/sell" class="hover:text-white transition-colors">Sell</a>
+                        </li>
+                        <li>
+                            <a href="/dashboard" class="hover:text-white transition-colors">Dashboard</a>
+                        </li>
+                        <% } else { %>
+                            <li>
+                                <!--this prevent the reload javascript:void(0);-->
+                                <a href="" onclick="event.preventDefault(); promptLoginAndRedirect('/sell')" class="hover:text-white transition-colors">Sell</a>
+                            </li>
+                            <li>
+                                <a href="" onclick="event.preventDefault(); promptLoginAndRedirect('/dashboard')" class="hover:text-white transition-colors">Dashboard</a>
+                            </li>
+                            <% } %>
+                                <li>
+                                    <a href="/about" class="hover:text-white transition-colors">About</a>
+                                </li>
+                </ul>
+            </div>
+            
+            <%-include("login.ejs")%>
+                <%-include("signup.ejs")%>
+                    <% if (locals.user && user) { %>
+                        <!---LogOut Button appear-->
+                        <form method="POST" action="/auth/logout" class="col-span-1 flex flex-row absolute right-6 text-xl">
+                            <img src="/images/Default_pfp.jpg" class="w-10 h-10 rounded-full border border-white">
+                            <button type="submit" class="text-white font-medium lg:px-4 md:px-4 px-2 py-2 rounded">Log Out</button>
+                        </form>
+                        <%} else { %>
+                            <ul class="col-span-1 flex flex-row absolute right-6 font-medium text-xl">
+                                <li>
+                                    <button onclick="openModal('loginModal')" class=" text-white font-medium lg:px-4 md:px-2 px-1 py-2 rounded">Login</button>
+                                </li>
+
+                            </ul>
+                            <%}%>
+        </div>
+        <!-- double nav bar that hides until very small screen -->
+        <div class="lg:hidden md:hidden inset-x-0 flex flex-row justify-center">
+                <ul class="flex flex-row lg:space-x-20 md:space-x-10 space-x-5 text-gray-300 font-medium text-xl p-1">
+                    <!-- navigator bar links -->
+                    <li>
+                        <a href="/" class="hover:text-white transition-colors">Home</a>
+                    </li>
+
+                    <% if (locals.user && user) { %>
+                        <li>
+                            <a href="/sell" class="hover:text-white transition-colors">Sell</a>
+                        </li>
+                        <li>
+                            <a href="/dashboard" class="hover:text-white transition-colors">Dashboard</a>
+                        </li>
+                        <% } else { %>
+                            <li>
+                                <!--this prevent the reload javascript:void(0);-->
+                                <a href="" onclick="event.preventDefault(); promptLoginAndRedirect('/sell')" class="hover:text-white transition-colors">Sell</a>
+                            </li>
+                            <li>
+                                <a href="" onclick="event.preventDefault(); promptLoginAndRedirect('/dashboard')" class="hover:text-white transition-colors">Dashboard</a>
+                            </li>
+                            <% } %>
+                                <li>
+                                    <a href="/about" class="hover:text-white transition-colors">About</a>
+                                </li>
+                </ul>
+            </div>
+                            <!-- add sign in register thing in header object here somewhere it should be positioned middle of screen -->
+    </div>
+    <% if (locals.signUpError && signUpError) { %>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                openModal('signupModal');
+                const errorBox = document.getElementById('signupErrorMessage');
+                if (errorBox) {
+                    errorBox.textContent = "<%= signUpError %>";
+                    errorBox.classList.remove('hidden');
+                }
+            });
+        </script>
+        <% } %>
+            <% if (locals.loginError && loginError) { %>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        openModal('loginModal');
+                        const errorBox = document.getElementById('loginErrorMessage');
+                        if (errorBox) {
+                            errorBox.textContent = "<%= loginError %>";
+                            errorBox.classList.remove('hidden');
+                        }
+                    });
+                </script>
+                <% } %>
+</body>
+
+</html>

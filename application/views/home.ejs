@@ -1,0 +1,84 @@
+<%-include("navigator/header.ejs")%>
+    <%-include("navigator/search.ejs")%>
+        <!-- include header navigator and search bar -->
+        <!-- displays info area only if no search has happened -->
+        <% if (url === "/") { %>
+            <!-- display landing page if at base -->
+            <div class="text-white bg-sfpurple">
+                <img src="/images/sfsubgsmallimg.jpg" alt="SF State Background" class="relative brightness-50 h-[21.5rem] flex items-center justify-center">
+                <div class="absolute lg:inset-x-1/3 md:inset-x-1/4 inset-x-[170px] inset-y-96 lg:w-1/3 w-1/2 min-w-[340px] lg:h-56 h-48 bg-sfpurplemedium rounded p-4">
+                    <p class="font-SS3 font-light text-center lg:text-xl md:text-lg text-sm">
+                        Welcome to GatorXchange, the ultimate marketplace for SFSU students and staff!
+                        Easily buy and sell products for classes and college life within the SFSU community. 
+                        Browse listings, connect with sellers, and schedule on-campus meetups to exchange items. 
+                        Create an account to start listing your own products.
+                    </p>
+                </div>
+                <div class="flex justify-center p-4">
+                    <h1 class="font-AG text-2xl">Shop Us By Category</h1>
+                </div>
+                <div class="justify-center">
+                    <form action="/" class="justify-evenly items-center">
+                        <div class="grid grid-cols-4 justify-evenly items-center px-4 py-2 gap-4">
+                            <button class="flex flex-col items-center p-4 bg-sfpurplemedium rounded-lg" name="category" value="1" type="submit">
+                        <h1 class="font-AG text-xl">Stationery</h1>
+                        <img src="/images/desk_organizer.jpg" alt="Stationery" class="lg:w-80 lg:h-80 md:w-64 md:h-64 w-36 h-36 object-cover rounded m-2">
+                    </button>
+                            <button class="flex flex-col items-center p-4 bg-sfpurplemedium rounded-lg" name="category" value="2" type="submit">
+                        <h1 class="font-AG text-xl">Electronics</h1>
+                        <img src="/images/mechanical_keyboard.jpg" alt="Electronic" class="lg:w-80 lg:h-80 md:w-64 md:h-64 w-36 h-36 object-cover rounded m-2">
+                    </button>
+                            <button class="flex flex-col items-center p-4 bg-sfpurplemedium rounded-lg" name="category" value="5" type="submit">
+                        <h1 class="font-AG text-xl">Supplies</h1>
+                        <img src="/images/ballpoint_pens.jpg" alt="Supplies" class="lg:w-80 lg:h-80 md:w-64 md:h-64 w-36 h-36 object-cover rounded m-2">
+                    </button>
+                            <button class="flex flex-col items-center p-4 bg-sfpurplemedium rounded-lg" name="category" value="4" type="submit">
+                        <h1 class="font-AG text-xl">Books</h1>
+                        <img src="/images/brownbook.jpeg" alt="Book" class="lg:w-80 lg:h-80 md:w-64 md:h-64 w-36 h-36 object-cover rounded m-2">
+                    </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <% } else { %>
+                <!-- display nothing if url changed from base home -->
+                <% } %>
+                    <%-include("navigator/footer.ejs") %>
+                        <!-- include footer navigator bar -->
+                        <div id="listings" class="font-SS3 p-4 w-full">
+                            <% if (products) { %>
+                                <h2 class="text-xl font-light text-gray-600">Total Products:
+                                    <%= productCount %>
+                                </h2>
+                                <div class="border-b-2 pb-2"></div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 pt-4 w-full">
+                                    <% products.forEach(product => { %>
+                                        <a href="/listing/<%= product.productId %>" class="flex flex-row border-2 border-sfpurple rounded-lg overflow-hidden shadow-sm w-full">
+                                            <% if (product.image) { %>
+                                                <img src="<%= product.image %>" alt="<%= product.name %>" class="object-cover lg:w-60 md:w-40 w-32 lg:h-60 md:h-40 h-32">
+                                                <% } else { %>
+                                                    <div class="flex items-center justify-center bg-gray-200 text-gray-500 lg:w-60 md:w-40 w-32 lg:h-60 md:h-40 h-32">No Image</div>
+                                                    <% } %>
+
+                                                        <div class="flex flex-col justify-between p-4 flex-grow">
+                                                            <h3 class="text-xl font-medium">
+                                                                <%= product.name %>
+                                                            </h3>
+                                                            <p class="text-base font-light">
+                                                                <%= product.description %>
+                                                            </p>
+                                                            <p class="text-xl font-bold">Price: $
+                                                                <%= product.price %>
+                                                            </p>
+                                                        </div>
+                                        </a>
+                                        <% }); %>
+                                </div>
+                                <% } else { %>
+                                    <p>No products available.</p>
+                                    <% } %>
+                        </div>
+                        </body>
+
+                        </html>

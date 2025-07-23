@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^3.12.0",
+    "path": "^0.12.7",
+    "session": "^0.1.0",
+    "sharp": "^0.34.1",
+    "socket.io": "^4.8.1",
+    "url": "^0.11.4"
+  },
+  "name": "web-app",
+  "description": "## Purpose The purpose of this folder is to store all the source code and related files for your team's application. Source code MUST NOT be in any of folder. <strong>YOU HAVE BEEN WARNED</strong>",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "tailwindcss build public/css/style.css -o public/css/bundle.css && node app.js",
+    "client": "cd client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Team-10",
+  "license": "ISC",
+  "devDependencies": {
+    "postcss": "^8.5.3",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.4.17"
+  }
+}
